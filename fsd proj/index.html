@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Crisis Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #35424a;
+            color: #ffffff;
+            text-align: center;
+            padding: 1rem;
+        }
+        nav {
+            background-color: #2c3e50;
+            color: #ffffff;
+        }
+        nav ul {
+            padding: 0;
+            list-style-type: none;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: #ffffff;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #35424a;
+        }
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #3498db;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .crisis-example, .energy-saving-tip {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .crisis-example img, .energy-saving-tip img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        footer {
+            background-color: #35424a;
+            color: #ffffff;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Understanding the Energy Crisis</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#country-crisis">Country Crisis</a></li>
+            <li><a href="#energy-saving">Energy Saving</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>The energy crisis refers to the growing concern over the depletion of non-renewable energy sources and the environmental impact of current energy production methods.</p>
+        </section>
+        <section id="country-crisis">
+            <h2>Energy Crisis by Country</h2>
+            <select id="countrySelect">
+                <option value="">Select a country</option>
+                <option value="germany">Germany</option>
+                <option value="india">India</option>
+                <option value="brazil">Brazil</option>
+            </select>
+            <div id="countryInfo"></div>
+        </section>
+        <section id="energy-saving">
+            <h2>Ways to Save Energy Consumption</h2>
+            <div class="energy-saving-tip">
+                <img src="https://ae01.alicdn.com/kf/HTB12GxkoBsmBKNjSZFsq6yXSVXaF/Energy-Saving-E27-LED-Bulb-9W-Dimmable-LED-Light-Spotlight-Epistar-Warm-White-Cold-White-High.jpg" alt="LED Bulbs">
+                <div>
+                    <h3>1. Switch to LED Lighting</h3>
+                    <p>Replace traditional incandescent bulbs with LED lights. LEDs use up to 75% less energy and last 25 times longer.</p>
+                </div>
+            </div>
+            <div class="energy-saving-tip">
+                <img src="https://images-na.ssl-images-amazon.com/images/I/61sPMq0N6nL._AC_SL1500_.jpg" alt="Smart Thermostat">
+                <div>
+                    <h3>2. Install a Smart Thermostat</h3>
+                    <p>Smart thermostats can automatically adjust your home's temperature, potentially saving up to 10-15% on heating and cooling costs.</p>
+                </div>
+            </div>
+            <div class="energy-saving-tip">
+                <img src="https://www.racv.com.au/content/dam/racv/images/content-hub/home-property/energy/6-star-10-star-1200x675.jpg.transform/heroMob/image.jpg" alt="Energy Star Appliances">
+                <div>
+                    <h3>3. Use Energy Star Appliances</h3>
+                    <p>Choose Energy Star certified appliances when replacing old ones. These appliances meet strict energy efficiency guidelines.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Energy Crisis Information</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countrySelect = document.getElementById('countrySelect');
+            const countryInfo = document.getElementById('countryInfo');
+
+            countrySelect.addEventListener('change', function() {
+                const selectedCountry = this.value;
+                if (selectedCountry) {
+                    fetch(`http://localhost:3000/api/country/${selectedCountry}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            countryInfo.innerHTML = `
+                                <h3>${data.title}</h3>
+                                <img src="${data.image}" alt="${data.title}" style="width:100%; max-width:400px; height:auto; margin-bottom:10px;">
+                                <p>${data.description}</p>
+                            `;
+                            countryInfo.style.display = 'block';
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            countryInfo.innerHTML = '<p>Error loading country information.</p>';
+                            countryInfo.style.display = 'block';
+                        });
+                } else {
+                    countryInfo.style.display = 'none';
+                }
+            });
+
+            // Smooth scrolling for navigation
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+node server.js in terminal
+python -m http.server 8000 in another terminal which is opened in the same folder
+in web browser open http://localhost:8000
+ctrl c to stop
+
